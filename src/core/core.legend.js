@@ -12,6 +12,10 @@ module.exports = function(Chart) {
 		fullWidth: true, // marks that this box should take the full width of the canvas (pushing down other boxes)
 		reverse: false,
 
+		onHover: function(e,legendItem) {
+			this.chart.setCursor(legendItem !== null ? 'pointer' : null);
+		},
+
 		// a callback that will handle
 		onClick: function(e, legendItem) {
 			var index = legendItem.datasetIndex;
@@ -70,6 +74,9 @@ module.exports = function(Chart) {
 			// Contains hit boxes for each dataset (in dataset order)
 			this.legendHitBoxes = [];
 
+			// Marks the index of the current legend being hovered (or null)
+			this.legendHover = null;
+
 			// Are we in doughnut mode which has a different data type
 			this.doughnutMode = false;
 		},
@@ -108,7 +115,10 @@ module.exports = function(Chart) {
 
 			return me.minSize;
 		},
-		afterUpdate: noop,
+		afterUpdate: function() {
+			// Update draw-dependent layout
+			this.draw();
+		},
 
 		//
 

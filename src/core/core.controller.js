@@ -115,6 +115,14 @@ module.exports = function(Chart) {
 			return me;
 		},
 
+		setCursor: function(cursor) {
+			if (cursor === null) {
+				this.chart.canvas.style.cursor = '';
+			} else {
+				this.chart.canvas.style.cursor = cursor;
+			}
+		},
+
 		ensureScalesHaveIDs: function() {
 			var options = this.options;
 			var scalesOptions = options.scales || {};
