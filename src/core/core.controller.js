@@ -635,9 +635,10 @@ module.exports = function(Chart) {
 				if (options.onClick) {
 					options.onClick.call(me, e, me.active);
 				}
-				if (me.legend && me.legend.handleEvent) {
-					me.legend.handleEvent(e);
-				}
+			}
+
+			if (me.legend && me.legend.handleEvent) {
+				me.legend.handleEvent(e);
 			}
 
 			// Remove styling for last active (even if it may still be active)

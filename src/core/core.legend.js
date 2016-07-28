@@ -427,6 +427,9 @@ module.exports = function(Chart) {
 				y = position.y,
 				opts = me.options;
 
+			var oldLegendHover = this.legendHover;
+			this.legendHover = null;
+
 			if (x >= me.left && x <= me.right && y >= me.top && y <= me.bottom) {
 				// See if we are touching one of the dataset boxes
 				var lh = me.legendHitBoxes;
@@ -435,11 +438,18 @@ module.exports = function(Chart) {
 
 					if (x >= hitBox.left && x <= hitBox.left + hitBox.width && y >= hitBox.top && y <= hitBox.top + hitBox.height) {
 						// Touching an element
-						if (opts.onClick) {
+						this.legendHover = i;
+						if ((e.type == 'mouseup' || e.type == 'click') && opts.onClick) {
 							opts.onClick.call(me, e, me.legendItems[i]);
 						}
 						break;
 					}
+				}
+			}
+
+			if (this.legendHover != oldLegendHover) {
+				if(opts.onHover){
+					opts.onHover.call(me, e, this.legendHover != null ? me.legendItems[this.legendHover] : null);
 				}
 			}
 		}
